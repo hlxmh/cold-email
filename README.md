@@ -1,4 +1,4 @@
-s# Cold Email CLI
+# Cold Email CLI
 
 A command-line tool that scrapes a company's website for a contact email address, then sends a cold email from your Gmail account — optionally using an existing `.eml` file as the message template with the greeting automatically personalised.
 
