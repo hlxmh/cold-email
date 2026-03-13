@@ -56,6 +56,7 @@ If you skip this step, the app will prompt for your password on the first run an
 
 ### Basic — send using an `.eml` template
 
+**macOS/Linux:**
 ```bash
 python main.py \
   --from-email you@gmail.com \
@@ -64,10 +65,50 @@ python main.py \
   --company-name "Target Company"
 ```
 
+**Windows (Command Prompt):**
+```cmd
+python main.py ^
+  --from-email you@gmail.com ^
+  --website https://targetcompany.com ^
+  --eml-file "My Email.eml" ^
+  --company-name "Target Company"
+```
+
+### Multiple websites/companies in one command
+
+Send to multiple companies with different websites in a single run using `--pairs`:
+
+**macOS/Linux:**
+```bash
+python main.py \
+  --from-email you@gmail.com \
+  --eml-file "My Email.eml" \
+  --attachments resume.pdf \
+  --pairs \
+    https://company1.com "Company 1" \
+    https://company2.com "Company 2" \
+    https://company3.com "Company 3"
+```
+
+**Windows (Command Prompt):**
+```cmd
+python main.py ^
+  --from-email you@gmail.com ^
+  --eml-file "My Email.eml" ^
+  --attachments resume.pdf ^
+  --pairs ^
+    https://company1.com "Company 1" ^
+    https://company2.com "Company 2" ^
+    https://company3.com "Company 3"
+```
+
+The greeting (`Dear Company Name,`) and personalisation happen automatically for each company. All other options (subject, body, attachments) are shared and sent to each recipient.
+
 ### With extra attachments
 
 Attach local files on top of any files already embedded in the `.eml`:
 
+**macOS/Linux:**
 ```bash
 python main.py \
   --from-email you@gmail.com \
@@ -77,8 +118,19 @@ python main.py \
   --attachments portfolio.pdf resume.pdf cover_letter.pdf
 ```
 
+**Windows (Command Prompt):**
+```cmd
+python main.py ^
+  --from-email you@gmail.com ^
+  --website https://targetcompany.com ^
+  --eml-file "My Email.eml" ^
+  --company-name "Target Company" ^
+  --attachments portfolio.pdf resume.pdf cover_letter.pdf
+```
+
 ### Compose inline (no .eml file)
 
+**macOS/Linux:**
 ```bash
 python main.py \
   --from-email you@gmail.com \
@@ -89,11 +141,30 @@ python main.py \
   --attachments resume.pdf
 ```
 
+**Windows (Command Prompt):**
+```cmd
+python main.py ^
+  --from-email you@gmail.com ^
+  --website https://targetcompany.com ^
+  --company-name "Target Company" ^
+  --subject "Summer Internship Interest" ^
+  --body-file email_body.html ^
+  --attachments resume.pdf
+```
+
 ### Dry run — preview found addresses without sending
 
+**macOS/Linux:**
 ```bash
 python main.py \
   --website https://targetcompany.com \
+  --dry-run
+```
+
+**Windows (Command Prompt):**
+```cmd
+python main.py ^
+  --website https://targetcompany.com ^
   --dry-run
 ```
 
@@ -105,8 +176,9 @@ python main.py \
 |------|-------|-------------|
 | `--from-email` | `-f` | Your Gmail address. Can also be set via `GMAIL_EMAIL` in `.env`. |
 | `--password` | `-p` | Gmail App Password. Can also be set via `GMAIL_APP_PASSWORD` in `.env`. Prompted securely if omitted. |
-| `--website` | `-w` | URL of the company website to scrape for contact emails. |
-| `--company-name` | `-n` | Company name used in the `Dear <name>,` greeting. Prompted interactively if omitted. |
+| `--website` | `-w` | URL of the company website to scrape for contact emails. Mutually exclusive with `--pairs`. |
+| `--company-name` | `-n` | Company name used in the `Dear <name>,` greeting. Prompted interactively if omitted. Not used with `--pairs`. |
+| `--pairs` | | Multiple (website, company name) pairs for batch sending: `--pairs url1 company1 url2 company2 ...`. Mutually exclusive with `--website`. |
 | `--eml-file` | `-e` | Path to a `.eml` file to use as the message template. Subject, body, and embedded attachments are all preserved. |
 | `--subject` | `-s` | Email subject line (inline mode only). |
 | `--body` | `-b` | Email body as a plain-text string (inline mode only). |
